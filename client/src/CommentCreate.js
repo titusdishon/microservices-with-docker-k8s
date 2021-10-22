@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export default ({postId}) => {
+const CoomentCreate=({ postId }) => {
   const [content, setContent] = useState('');
 
   const onSubmit = async event => {
     event.preventDefault();
-    await axios.post(`http://127.0.0.1:64773/posts/${postId}/comments` ,{
-        content
+    await axios.post(`http://posts.com/posts/${postId}/comments`, {
+      content
     });
 
     setContent('');
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <>
+      {postId !== undefined && <div><form onSubmit={onSubmit}>
+
         <div className="form-group">
           <label>Title</label>
           <input
@@ -26,6 +27,10 @@ export default ({postId}) => {
         </div>
         <button className="btn btn-primary">Submit</button>
       </form>
-    </div>
+      </div>
+      }
+    </>
+
   );
 };
+export default CoomentCreate;

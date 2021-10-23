@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-srv
@@ -11,20 +11,32 @@ spec:
     - host: posts.com
       http:
         paths:
-          - path: /posts/create
+          - pathType: Prefix
+            path: /posts/create
             backend:
-              serviceName: posts-cluster-ip-srv
-              servicePort: 4000
-          - path: /posts
+              service:
+                name: posts-cluster-ip-srv
+                port:
+                  number: 4000
+          - pathType: Prefix
+            path: /posts
             backend:
-              serviceName: query-srv
-              servicePort: 4002
-          - path: /posts/?(.*)/comments
+              service:
+                name: query-srv
+                port:
+                  number: 4002
+
+          - pathType: Prefix
+            path: /posts/?(.*)/comments
             backend:
-              serviceName: comments-srv
-              servicePort: 4001
-              #/?(.*) when using router with react applications
-          - path: / 
+              service:
+                name: comments-srv
+                port:
+                  number: 4001
+          - pathType: Prefix
+            path: /
             backend:
-              serviceName: client-srv
-              servicePort: 3000
+              service:
+                name: client-srv
+                port:
+                  number: 3000

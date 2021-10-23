@@ -15,7 +15,13 @@ spec:
       containers:
         - name: event-bus
           image: titusdishon/event-bus
-
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service 

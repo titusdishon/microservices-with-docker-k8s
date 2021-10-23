@@ -1,8 +1,10 @@
-apiVersion: skaffold/v2beta24
+apiVersion: skaffold/v2alpha3
 kind: Config
 metadata:
   name: microservices-with-docker-k-s
 build:
+  tagPolicy:
+    sha256: {}
   local:
     push: false
   artifacts:
@@ -12,24 +14,24 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - dest: .
-            src: "src/*.js"
+          - src: "src/**/*.js"
+            dest: .
     - image: titusdishon/comments
       context: comments
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - dest: .
-            src: "*.js"
+          - src: "*.js"
+            dest: .
     - image: titusdishon/event-bus
       context: event-bus
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - dest: .
-            src: "*.js"
+           - src: "*.js"
+             dest: .
     - image: titusdishon/moderations
       context: moderation
       docker:
@@ -40,23 +42,18 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - dest: .
-            src: "*.js"
+           - src: "*.js"
+             dest: .
     - image: titusdishon/query
       context: query
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - dest: .
-            src: "*.js"
+           - src: "*.js"
+             dest: .
+
 deploy:
   kubectl:
     manifests:
-      - infra/k8s/client-depl.yaml
-      - infra/k8s/comments-depl.yaml
-      - infra/k8s/event-bus-dep.yaml
-      - infra/k8s/ingress-srv.yaml
-      - infra/k8s/moderations-depl.yaml
-      - infra/k8s/posts-dep.yaml
-      - infra/k8s/query-depl.yaml
+      - infra/k8s/*

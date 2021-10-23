@@ -15,6 +15,13 @@ spec:
       containers:
         - name: client
           image: titusdishon/client
+          resources:
+            requests:
+              memory: "204Mi"
+              cpu: "250m"
+            limits:
+              memory: "228Mi"
+              cpu: "500m"          
 ---
 apiVersion: v1
 kind: Service
